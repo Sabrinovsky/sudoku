@@ -11,3 +11,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+input{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+.puzzle-col {
+  max-width: 450px;  
+}
+.cell{
+  height: 50px;
+  max-width: 50px;
+  border-style: solid;
+  border-color: rgb(133, 133, 133);
+  border-width: thin;
+  padding: 0;
+}
+.btn{
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+}
+input{
+  border: 0px; 
+}
+
+.cell:hover{
+  background-color: rgb(228, 228, 228);;
+}
+.left-border{
+  border-left: 2px solid black;
+}
+.top-border{
+  border-top: 1px solid black;
+}
+.invalid-cell{
+  color: red
+}
