@@ -29,14 +29,14 @@ class Sudoku extends React.Component {
     });
     return error;
   }
-  hasDuplicatedScope(value,indexRow,indexCol) {
-    let error = false
-    const row = indexRow > 5 ? 3 : indexRow > 2 ? 3 : 0
-    const col = indexCol > 5 ? 3 : indexCol > 2 ? 3 : 0
-    console.log(row+' - '+col)
-    for(let i=row;i<row+3;i++){
-      for(let j=col;j<col+3;j++){
-        if(this.props.puzzle[i][j].value===value){
+  hasDuplicatedScope(value, indexRow, indexCol) {
+    let error = false;
+    const row = indexRow > 5 ? 6 : indexRow > 2 ? 3 : 0;
+    const col = indexCol > 5 ? 6 : indexCol > 2 ? 3 : 0;
+    console.log(row + " - " + col);
+    for (let i = row; i < row + 3; i++) {
+      for (let j = col; j < col + 3; j++) {
+        if (this.props.puzzle[i][j].value === value) {
           error = true;
         }
       }
@@ -46,11 +46,11 @@ class Sudoku extends React.Component {
 
   handleChange(e, indexRow, indexCol) {
     let value = e.target.value;
-    
+
     let hasError =
       this.hasDuplicatedRow(value, indexRow) ||
       this.hasDuplicatedCol(value, indexCol) ||
-      this.hasDuplicatedScope(value, indexRow,indexCol)
+      this.hasDuplicatedScope(value, indexRow, indexCol);
     this.props.dispatch({
       type: UPDATECELL,
       indexRow,
@@ -71,38 +71,43 @@ class Sudoku extends React.Component {
   render() {
     return (
       <Container>
-        {this.props.puzzle.map((value, indexRow) => {
-          return (
-            <Row
-              key={indexRow}
-              className={
-                "puzzle-col" +
-                (indexRow === 3 || indexRow === 6 ? " top-border" : "")
-              }
-            >
-              {this.props.puzzle[indexRow].map((value, indexCol) => {
-                return (
-                  <Col
-                    key={indexCol}
-                    className={
-                      "cell" +
-                      (indexCol === 3 || indexCol === 6 ? " left-border" : "")
-                    }
-                  >
-                    <input
-                      className={value.error ? "invalid-cell" : ""}
-                      defaultValue={value.value}
-                      maxLength={1}
-                      onChange={e => {
-                        this.handleChange(e, indexRow, indexCol);
-                      }}
-                    />
-                  </Col>
-                );
-              })}
-            </Row>
-          );
-        })}
+        <h1>
+          Sudoku
+        </h1>
+      <div className='wrapper'>
+          {this.props.puzzle.map((value, indexRow) => {
+            return (
+              <Row
+                key={indexRow}
+                className={
+                  "puzzle puzzle-col" +
+                  (indexRow === 3 || indexRow === 6 ? " top-border" : "")
+                }
+              >
+                {this.props.puzzle[indexRow].map((value, indexCol) => {
+                  return (
+                    <Col
+                      key={indexCol}
+                      className={
+                        "cell" +
+                        (indexCol === 3 || indexCol === 6 ? " left-border" : "")
+                      }
+                    >
+                      <input
+                        className={value.error ? "invalid-cell" : ""}
+                        defaultValue={value.value}
+                        maxLength={1}
+                        onChange={e => {
+                          this.handleChange(e, indexRow, indexCol);
+                        }}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
+            );
+          })}
+      </div>
       </Container>
     );
   }
