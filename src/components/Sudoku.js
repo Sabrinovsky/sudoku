@@ -13,17 +13,17 @@ class Sudoku extends React.Component {
 
   hasDuplicatedRow(newValue, indexRow, indexCol) {
     var error = false;
-    this.props.puzzle[indexRow].map((value,col) => {
-      if (value.value === newValue && (indexCol!==col)) {
+    this.props.puzzle[indexRow].map((value, col) => {
+      if (value.value === newValue && indexCol !== col) {
         error = true;
       }
     });
     return error;
   }
-  hasDuplicatedCol(newValue, indexCol , indexRow) {
+  hasDuplicatedCol(newValue, indexCol, indexRow) {
     var error = false;
-    this.props.puzzle.map((value,row) => {
-      if (value[indexCol].value === newValue && (indexRow!=row)) {
+    this.props.puzzle.map((value, row) => {
+      if (value[indexCol].value === newValue && indexRow != row) {
         error = true;
       }
     });
@@ -35,7 +35,10 @@ class Sudoku extends React.Component {
     const col = indexCol > 5 ? 6 : indexCol > 2 ? 3 : 0;
     for (let i = row; i < row + 3; i++) {
       for (let j = col; j < col + 3; j++) {
-        if (this.props.puzzle[i][j].value === value && (indexRow !== i && indexCol !== j)) {
+        if (
+          this.props.puzzle[i][j].value === value &&
+          (indexRow !== i && indexCol !== j)
+        ) {
           error = true;
         }
       }
@@ -43,15 +46,15 @@ class Sudoku extends React.Component {
     return error;
   }
   checkForErros() {
-    console.log(this.props.puzzle)
+    console.log(this.props.puzzle);
     this.props.puzzle.map((row, indexRow) => {
       row.map((col, indexCol) => {
-        if(col.value!==''){
+        if (col.value !== "") {
           let hasError =
-            this.hasDuplicatedRow(col.value, indexRow,indexCol) ||
-            this.hasDuplicatedCol(col.value, indexCol,indexRow) ||
+            this.hasDuplicatedRow(col.value, indexRow, indexCol) ||
+            this.hasDuplicatedCol(col.value, indexCol, indexRow) ||
             this.hasDuplicatedScope(col.value, indexRow, indexCol);
-            
+
           this.props.dispatch({
             type: UPDATECELL,
             indexRow,
