@@ -6,47 +6,44 @@ import Selector from "./Selector";
 const UPDATECELL = "UPDATECELL";
 
 class Sudoku extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   hasDuplicatedRow(newValue, indexRow, indexCol) {
-    var error = false;
-    this.props.puzzle[indexRow].map((value, col) => {
-      if (value.value === newValue && indexCol !== col) {
+    let error = false;
+    this.props.puzzle[indexRow].map((cell, col) => {
+      const hasEqualValue = (cell.value === newValue && indexCol !== col);
+      if (hasEqualValue) {
         error = true;
       }
     });
     return error;
   }
   hasDuplicatedCol(newValue, indexCol, indexRow) {
-    var error = false;
-    this.props.puzzle.map((value, row) => {
-      if (value[indexCol].value === newValue && indexRow != row) {
+    let error = false;
+    this.props.puzzle.map((cell, row) => {
+      const hasEqualValue =
+        cell[indexCol].value === newValue && indexRow != row;
+      if (hasEqualValue) {
         error = true;
       }
     });
     return error;
   }
   hasDuplicatedScope(value, indexRow, indexCol) {
-    let error = false;
     const row = indexRow > 5 ? 6 : indexRow > 2 ? 3 : 0;
     const col = indexCol > 5 ? 6 : indexCol > 2 ? 3 : 0;
     for (let i = row; i < row + 3; i++) {
       for (let j = col; j < col + 3; j++) {
-        if (
+        const hasEqualValue =
           this.props.puzzle[i][j].value === value &&
-          (indexRow !== i && indexCol !== j)
-        ) {
-          error = true;
+          (indexRow !== i && indexCol !== j);
+        if (hasEqualValue) {
+          return true;
         }
       }
     }
-    return error;
+    return false;
   }
   checkForErros() {
-    console.log(this.props.puzzle);
+
     this.props.puzzle.map((row, indexRow) => {
       row.map((col, indexCol) => {
         if (col.value !== "") {
@@ -76,8 +73,6 @@ class Sudoku extends React.Component {
       property: "value"
     });
     this.checkForErros(value, indexRow, indexCol);
-
-    this.setState({});
   }
 
   render() {

@@ -23,8 +23,9 @@ const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
       case 'UPDATECELL':
-        state.puzzle[action.indexRow][action.indexCol][action.property] = action.value;
-        return {...state}
+        const puzzle = [...state.puzzle]
+        puzzle[action.indexRow][action.indexCol][action.property] = action.value;
+        return {...state, puzzle}
     default:
       return state;
   }
