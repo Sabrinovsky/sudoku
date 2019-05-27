@@ -1,15 +1,14 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
-import Selector from "./Selector";
 
-const UPDATECELL = "UPDATECELL";
+import { UPDATECELL } from "../store/actions-types";
 
 class Sudoku extends React.Component {
   hasDuplicatedRow(newValue, indexRow, indexCol) {
     let error = false;
     this.props.puzzle[indexRow].map((cell, col) => {
-      const hasEqualValue = (cell.value === newValue && indexCol !== col);
+      const hasEqualValue = cell.value === newValue && indexCol !== col;
       if (hasEqualValue) {
         error = true;
       }
@@ -43,7 +42,6 @@ class Sudoku extends React.Component {
     return false;
   }
   checkForErros() {
-
     this.props.puzzle.map((row, indexRow) => {
       row.map((col, indexCol) => {
         if (col.value !== "") {
@@ -113,6 +111,11 @@ class Sudoku extends React.Component {
             );
           })}
         </div>
+          <div>
+            <a className=""  href="https://github.com/mathesouza/sudoku">
+              <i className="fab fa-github" />
+            </a>
+          </div>
       </Container>
     );
   }
