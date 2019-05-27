@@ -16,6 +16,7 @@ input{
   border-color: rgb(133, 133, 133);
   border-width: thin;
   padding: 0;
+  font-size: 25px;
 }
 .btn{
   width: 100%;
