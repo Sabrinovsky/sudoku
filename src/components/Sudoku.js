@@ -70,7 +70,7 @@ class Sudoku extends React.Component {
       value,
       property: "value"
     });
-    this.checkForErros(value, indexRow, indexCol);
+    this.checkForErros();
   }
 
   render() {
