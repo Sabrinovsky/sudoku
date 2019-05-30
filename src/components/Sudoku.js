@@ -2,9 +2,17 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 
-import { UPDATECELL } from "../store/actions-types";
+import { UPDATECELL, SETLOCALSTORAGE } from "../store/actions-types";
 
 class Sudoku extends React.Component {
+
+  componentDidMount(){
+    if(localStorage.puzzle){
+      let puzzle = JSON.parse(localStorage.puzzle) 
+      this.props.dispatch({type:SETLOCALSTORAGE, puzzle})
+    }
+  }
+
   hasDuplicatedRow(newValue, indexRow, indexCol) {
     let error = false;
     this.props.puzzle[indexRow].map((cell, col) => {
@@ -71,6 +79,7 @@ class Sudoku extends React.Component {
       property: "value"
     });
     this.checkForErros();
+    localStorage.setItem('puzzle',JSON.stringify(this.props.puzzle))
   }
 
   render() {
