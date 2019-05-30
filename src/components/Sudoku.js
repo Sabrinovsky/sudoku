@@ -106,6 +106,7 @@ class Sudoku extends React.Component {
                       }
                     >
                       <input
+                        data-testid={`${indexRow}${indexCol}`}
                         className={value.error ? "invalid-cell" : ""}
                         defaultValue={value.value}
                         maxLength={1}
@@ -120,11 +121,11 @@ class Sudoku extends React.Component {
             );
           })}
         </div>
-          <div>
-            <a className=""  href="https://github.com/mathesouza/sudoku">
-              <i className="fab fa-github" />
-            </a>
-          </div>
+        <div>
+          <a className="" href="https://github.com/mathesouza/sudoku">
+            <i className="fab fa-github" />
+          </a>
+        </div>
       </Container>
     );
   }
