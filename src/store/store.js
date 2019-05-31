@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 
-import { UPDATECELL } from './actions-types'
+import { UPDATECELL, SETLOCALSTORAGE } from './actions-types'
 import { initialState } from './initialState'
 
 function reducer(state = initialState, action) {
