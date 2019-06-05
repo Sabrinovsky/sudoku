@@ -42,53 +42,46 @@ class Sudoku extends React.Component {
     }
     return false;
   }
-  checkForErros(valueIndexRow, valueIndexCol) {
+  checkForErrors(valueIndexRow, valueIndexCol) {
     this.props.puzzle.map((row, indexRow) => {
       row.map((col, indexCol) => {
         if (col.value !== "") {
-          let hasError = col.error;
+          let hadError = col.error;
 
           const rowToCheck = indexRow > 5 ? 6 : indexRow > 2 ? 3 : 0;
-          const valueRow = valueIndexRow > 5 ? 6 : valueIndexRow > 2 ? 3 : 0;
           const colToCheck = indexCol > 5 ? 6 : indexCol > 2 ? 3 : 0;
+          const valueRow = valueIndexRow > 5 ? 6 : valueIndexRow > 2 ? 3 : 0;
           const valueCol = valueIndexCol > 5 ? 6 : valueIndexCol > 2 ? 3 : 0;
 
           if (indexCol === valueIndexCol || 
             indexRow === valueIndexRow || 
             (rowToCheck === valueRow &&
             colToCheck === valueCol)){
-            let hasErrorCol = false;
-            let hasErrorRow = false;
-            let hasErrorScope = false;
+            let hasError = false;
             
             if (indexCol === valueIndexCol){
-              hasErrorCol = this.hasDuplicatedCol(col.value, indexRow, indexCol);
+              hasError = this.hasDuplicatedCol(col.value, indexRow, indexCol);
             }
             
-            if (indexRow === valueIndexRow && !hasErrorCol){
-              hasErrorRow = this.hasDuplicatedRow(col.value, indexRow, indexCol);
+            if (indexRow === valueIndexRow && !hasError){
+              hasError = this.hasDuplicatedRow(col.value, indexRow, indexCol);
             }
             
-            if (!hasErrorRow && !hasErrorCol){
-              if (rowToCheck === valueRow){
-                if (colToCheck === valueCol){
-                  hasErrorScope = this.hasDuplicatedScope(col.value, indexRow, indexCol);
-                }
-              }
+            if (rowToCheck === valueRow && colToCheck === valueCol && !hasError){
+              hasError = this.hasDuplicatedScope(col.value, indexRow, indexCol);
             }
 
-            if (hasErrorCol || hasErrorRow || hasErrorScope){
-              hasError = true;
+            if (hasError){
               this.props.dispatch({
                 type: UPDATECELL,
                 indexRow,
                 indexCol,
                 property: "error",
-                value: hasError
+                value: true
               });
             }
-            else if (!hasErrorCol && !hasErrorRow && !hasErrorScope){
-              if (hasError){
+            else{
+              if (hadError){
                 this.props.dispatch({
                   type: UPDATECELL,
                   indexRow,
@@ -96,19 +89,12 @@ class Sudoku extends React.Component {
                   property: "error",
                   value: false
                 });
-                this.checkForErros(indexRow, indexCol)
+                // if has error before and now doesn't have anymore, 
+                // checkForErrors in this cell.
+                this.checkForErrors(indexRow, indexCol)
               }
-              hasError = false;
             }
-          } 
-
-          // this.props.dispatch({
-          //   type: UPDATECELL,
-          //   indexRow,
-          //   indexCol,
-          //   property: "error",
-          //   value: hasError
-          // });
+          }
         }
       });
     });
@@ -122,7 +108,7 @@ class Sudoku extends React.Component {
       value,
       property: "value"
     });
-    this.checkForErros(indexRow, indexCol);
+    this.checkForErrors(indexRow, indexCol);
   }
 
   render() {
