@@ -8,14 +8,15 @@ class Sudoku extends React.Component {
   hasDuplicatedRow(newValue, indexRow, indexCol) {
     let error = false;
     this.props.puzzle[indexRow].map((cell, col) => {
-      const hasEqualValue = cell.value === newValue && indexCol !== col;
+      const hasEqualValue = 
+        cell.value === newValue && indexCol !== col;
       if (hasEqualValue) {
         error = true;
       }
     });
     return error;
   }
-  hasDuplicatedCol(newValue, indexCol, indexRow) {
+  hasDuplicatedCol(newValue, indexRow, indexCol) {
     let error = false;
     this.props.puzzle.map((cell, row) => {
       const hasEqualValue =
@@ -41,22 +42,61 @@ class Sudoku extends React.Component {
     }
     return false;
   }
-  checkForErros() {
+  checkForErros(valueIndexRow, valueIndexCol) {
     this.props.puzzle.map((row, indexRow) => {
       row.map((col, indexCol) => {
         if (col.value !== "") {
-          let hasError =
-            this.hasDuplicatedRow(col.value, indexRow, indexCol) ||
-            this.hasDuplicatedCol(col.value, indexCol, indexRow) ||
-            this.hasDuplicatedScope(col.value, indexRow, indexCol);
+          let hasError = col.error;
 
-          this.props.dispatch({
-            type: UPDATECELL,
-            indexRow,
-            indexCol,
-            property: "error",
-            value: hasError
-          });
+          if (indexCol === valueIndexCol || indexRow === valueIndexRow){
+            let hasErrorCol = false;
+            let hasErrorRow = false;
+            let hasErrorScope = false;
+            
+            if (indexCol === valueIndexCol){
+              hasErrorCol = this.hasDuplicatedCol(col.value, indexRow, indexCol);
+            }
+            
+            if (indexRow === valueIndexRow){
+              hasErrorRow = this.hasDuplicatedRow(col.value, indexRow, indexCol);
+            }
+            
+            if (!hasErrorRow && !hasErrorCol){
+              hasErrorScope = this.hasDuplicatedScope(col.value, indexRow, indexCol);
+            }
+
+            if (hasErrorCol || hasErrorRow || hasErrorScope){
+              hasError = true;
+              this.props.dispatch({
+                type: UPDATECELL,
+                indexRow,
+                indexCol,
+                property: "error",
+                value: hasError
+              });
+            }
+            else if (!hasErrorCol && !hasErrorRow && !hasErrorScope){
+              if (hasError){
+                this.props.dispatch({
+                  type: UPDATECELL,
+                  indexRow,
+                  indexCol,
+                  property: "error",
+                  value: false
+                });
+                this.checkForErros(indexRow, indexCol)
+              }
+              hasError = false;
+            }
+          } 
+
+          // this.props.dispatch({
+          //   type: UPDATECELL,
+          //   indexRow,
+          //   indexCol,
+          //   property: "error",
+          //   value: hasError
+          // });
         }
       });
     });
@@ -70,7 +110,7 @@ class Sudoku extends React.Component {
       value,
       property: "value"
     });
-    this.checkForErros();
+    this.checkForErros(indexRow, indexCol);
   }
 
   render() {
