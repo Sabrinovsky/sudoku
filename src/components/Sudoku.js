@@ -57,12 +57,22 @@ class Sudoku extends React.Component {
               hasErrorCol = this.hasDuplicatedCol(col.value, indexRow, indexCol);
             }
             
-            if (indexRow === valueIndexRow){
+            if (indexRow === valueIndexRow && !hasErrorCol){
               hasErrorRow = this.hasDuplicatedRow(col.value, indexRow, indexCol);
             }
             
             if (!hasErrorRow && !hasErrorCol){
-              hasErrorScope = this.hasDuplicatedScope(col.value, indexRow, indexCol);
+              const rowToCheck = indexRow > 5 ? 6 : indexRow > 2 ? 3 : 0;
+              const valueRow = valueIndexRow > 5 ? 6 : valueIndexRow > 2 ? 3 : 0;
+              
+              if (rowToCheck === valueRow){
+                const colToCheck = indexCol > 5 ? 6 : indexCol > 2 ? 3 : 0;
+                const valueCol = valueIndexCol > 5 ? 6 : valueIndexCol > 2 ? 3 : 0;
+                
+                if (colToCheck === valueCol){
+                  hasErrorScope = this.hasDuplicatedScope(col.value, indexRow, indexCol);
+                }
+              }
             }
 
             if (hasErrorCol || hasErrorRow || hasErrorScope){
