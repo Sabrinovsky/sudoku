@@ -22,10 +22,9 @@ input{
   padding: 0;
   font-size: 25px;
 }
-.btn{
-  width: 100%;
-  height: 100%;
-  border-radius: 0px;
+.control-area{
+  margin-top: 15px;
+  
 }
 input{
   border: 0px; 

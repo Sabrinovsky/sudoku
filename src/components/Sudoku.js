@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col,Button } from "react-bootstrap";
 import { connect } from "react-redux";
 
 import { UPDATECELL, SETLOCALSTORAGE } from "../store/actions-types";
@@ -158,6 +158,9 @@ class Sudoku extends React.Component {
               </Row>
             );
           })}
+        </div>
+        <div className='control-area'>
+          <Button variant='outline-light'>Limpar tabela</Button>
         </div>
         <div>
           <a className="" href="https://github.com/mathesouza/sudoku">
