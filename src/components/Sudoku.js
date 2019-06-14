@@ -123,7 +123,7 @@ class Sudoku extends React.Component {
   render() {
     return (
       <Container>
-        <h1>Sudoku</h1>
+        <h1 className='title'>Sudoku</h1>
         <div className="wrapper">
           {this.props.puzzle.map((value, indexRow) => {
             return (

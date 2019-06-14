@@ -1,6 +1,10 @@
 h1{
   margin-top: 15px;
 }
+
+body{
+  background-image: linear-gradient(to right, #616161,#9bc5c3)
+}
 input{
   height: 100%;
   width: 100%;
@@ -26,7 +30,9 @@ input{
 input{
   border: 0px; 
 }
-
+.title{
+  color: #c2c2c2;
+}
 .cell:hover{
   background-color: rgb(228, 228, 228);;
 }
